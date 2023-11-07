@@ -13,23 +13,65 @@
 using namespace std;
 
 // Rocket
-float rocket_x = 325.0f;
-float rocket_y = 0.0f;
+float rocketX = 325.0f;
+float rocketY = 0.0f;
 
 // Obstacles
-float object1_random = 0.0f;
-float object1_x = -200.0f;
+float object1Random = 0.0f;
+float object1X = -200.0f;
 
-float object2_random = 0.0f;
-float object2_x = -100.0f;
+float object2Random = 0.0f;
+float object2X = -100.0f;
 
-float object3_random = 0.0f;
-float object3_x = 200.0f;
+float object3Random = 0.0f;
+float object3X = 200.0f;
 
 // Speed
 float fall = 0.0f;
 float speed = 1.0f;
 float rotate = 0.0f;
+
+void display();
+void moon();
+void stars();
+void rocket();
+void obstacle();
+
+void animation();
+void special_keyboard(int key, int x, int y);
+
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv);
+    glutCreateWindow("Moon Invaders v1.0.0");
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowPosition(1000, 500);
+    glutInitWindowSize(1000, 500);
+
+    // Set the callback functions
+    glutIdleFunc(animation);
+    glutDisplayFunc(display);
+    glutSpecialFunc(special_keyboard);
+
+    // Initialize OpenGL
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    gluOrtho2D(0.0, 1000, 0.0, 1000);
+
+    // Start the main loop
+    glutMainLoop();
+}
+
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    moon();
+    stars();
+    rocket();
+    obstacle();
+
+    glFinish();
+}
 
 void moon()
 {
@@ -83,7 +125,7 @@ void stars()
 void rocket()
 {
     glPushMatrix();
-    glTranslated(rocket_x, rocket_y, 0);
+    glTranslated(rocketX, rocketY, 0);
 
     // Rectangle
     glPushMatrix();
@@ -173,9 +215,9 @@ void obstacle_design()
 
 void random_number()
 {
-    object1_random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
-    object2_random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
-    object3_random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 500.0));
+    object1Random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
+    object2Random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
+    object3Random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 500.0));
 }
 
 void obstacle()
@@ -185,7 +227,7 @@ void obstacle()
     glPushMatrix();
     glTranslated(500, 1000, 0);
     glTranslated(-500, -1000, 0);
-    glTranslated(object1_x, 1050, 0);
+    glTranslated(object1X, 1050, 0);
     glTranslated(0, fall * speed, 0);
     obstacle_design();
     glPopMatrix();
@@ -193,7 +235,7 @@ void obstacle()
     glPushMatrix();
     glTranslated(500, 1000, 0);
     glTranslated(-500, -1000, 0);
-    glTranslated(object2_x, 1000, 0);
+    glTranslated(object2X, 1000, 0);
     glTranslated(0, fall * speed, 0);
     obstacle_design();
     glPopMatrix();
@@ -201,11 +243,12 @@ void obstacle()
     glPushMatrix();
     glTranslated(500, 1000, 0);
     glTranslated(-500, -1000, 0);
-    glTranslated(object3_x, 1000, 0);
+    glTranslated(object3X, 1000, 0);
     glTranslated(0, fall * speed, 0);
     obstacle_design();
     glPopMatrix();
 }
+
 void animation()
 {
     rotate += 0.02;
@@ -214,23 +257,11 @@ void animation()
     if ((fall * speed) < -1050)
     {
         fall = 0;
-        object1_x = object1_random;
-        object2_x = object2_random;
-        object3_x = object3_random;
+        object1X = object1Random;
+        object2X = object2Random;
+        object3X = object3Random;
     }
     glutPostRedisplay();
-}
-
-void display()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    moon();
-    stars();
-    rocket();
-    obstacle();
-
-    glFinish();
 }
 
 void special_keyboard(int key, int x, int y)
@@ -238,10 +269,10 @@ void special_keyboard(int key, int x, int y)
     switch (key)
     {
         // Movement
-    case GLUT_KEY_UP: y += 30; break;
-    case GLUT_KEY_DOWN: y -= 30; break;
-    case GLUT_KEY_RIGHT: x += 30; break;
-    case GLUT_KEY_LEFT: x -= 30; break;
+    case GLUT_KEY_UP: rocketY += 30; break;
+    case GLUT_KEY_DOWN: rocketY -= 30; break;
+    case GLUT_KEY_RIGHT: rocketX += 30; break;
+    case GLUT_KEY_LEFT: rocketX -= 30; break;
 
         // Speed
     case GLUT_KEY_F1: speed += 0.1; break;
@@ -250,23 +281,4 @@ void special_keyboard(int key, int x, int y)
     glutPostRedisplay();
 }
 
-int main(int argc, char** argv)
-{
-    glutInit(&argc, argv);
-    glutCreateWindow("Moon Invaders v1.0.0");
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowPosition(1000, 500);
-    glutInitWindowSize(1000, 500);
-
-    // Set the callback functions
-    glutIdleFunc(animation);
-    glutDisplayFunc(display);
-    glutSpecialFunc(special_keyboard);
-
-    // Initialize OpenGL
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    gluOrtho2D(0.0, 1000, 0.0, 1000);
-
-    // Start the main loop
-    glutMainLoop();
-}
+// </> with <3 by Ahmed & Amir
