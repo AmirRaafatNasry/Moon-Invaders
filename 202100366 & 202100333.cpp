@@ -7,7 +7,6 @@
 */
 
 #include <cmath>
-#include <iostream>
 #include <windows.h>
 #include <GL/glut.h>
 using namespace std;
@@ -18,13 +17,13 @@ float rocketY = 0.0f;
 
 // Obstacles
 float object1Random = 0.0f;
-float object1X = -200.0f;
+float object1X = 100.0f;
 
 float object2Random = 0.0f;
-float object2X = -100.0f;
+float object2X = 400.0f;
 
 float object3Random = 0.0f;
-float object3X = 200.0f;
+float object3X = 600.0f;
 
 // Speed
 float fall = 0.0f;
@@ -179,29 +178,29 @@ void obstacle_design(float x,float y)
 
     // Right Triangle
     glBegin(GL_TRIANGLES);
-    glColor3f(255.0f, 0.0f, 0.0f);
-    glVertex3f(260.0f, 300.0f, 0.0f);
-    glVertex3f(340.0f, 300.0f, 0.0f);
-    glVertex3f(340.0f, 350.0f, 0.0f);
+    glColor3f(5.0f, 0.0f, 0.0f);
+    glVertex3f(10.0f, 300.0f, 0.0f);
+    glVertex3f(90.0f, 300.0f, 0.0f);
+    glVertex3f(90.0f, 350.0f, 0.0f);
     glEnd();
 
     // Left Triangle
     glBegin(GL_TRIANGLES);
-    glVertex3f(260.0f, 300.0f, 0.0f);
-    glVertex3f(340.0f, 300.0f, 0.0f);
-    glVertex3f(260.0f, 350.0f, 0.0f);
+    glVertex3f(10.0f, 300.0f, 0.0f);
+    glVertex3f(90.0f, 300.0f, 0.0f);
+    glVertex3f(10.0f, 350.0f, 0.0f);
     glEnd();
 
     // Middle Triangle
     glBegin(GL_TRIANGLES);
-    glColor3f(255.0f, 255.0f, 0.0f);
-    glVertex3f(260.0f, 300.0f, 0.0f);
-    glVertex3f(340.0f, 300.0f, 0.0f);
-    glVertex3f(300.0f, 380.0f, 0.0f);
+    glColor3f(5.0f, 255.0f, 0.0f);
+    glVertex3f(10.0f, 300.0f, 0.0f);
+    glVertex3f(90.0f, 300.0f, 0.0f);
+    glVertex3f(50.0f, 380.0f, 0.0f);
     glEnd();
 
     // Orange Circle
-    glTranslated(300, 300, 0);
+    glTranslated(50, 300, 0);
     glColor3f(255.0f, 255.0f, 0.0f);
     GLUquadric* circle = gluNewQuadric();
     gluDisk(circle, 0.0, 40, 100, 1);
@@ -233,7 +232,7 @@ void animation()
     rotate += 0.02;
     fall -= 0.1;
     // Go back to top
-    if ((fall * speed) < -1050)
+    if ((fall * speed) < -1400)
     {
         fall = 0;
         object1X = object1Random;
