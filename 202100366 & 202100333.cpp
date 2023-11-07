@@ -129,53 +129,53 @@ void rocket()
 
     // Rectangle
     glPushMatrix();
-    glTranslated(130, 110, 0);
-    glTranslated(-130, -110, 0);
     glBegin(GL_POLYGON);
     glColor3f(255.0f, 0.0f, 0.0f);
-    glVertex3f(130.0f, 110.0f, 0.0f);
-    glVertex3f(170.0f, 110.0f, 0.0f);
-    glVertex3f(170.0f, 190.0f, 0.0f);
-    glVertex3f(130.0f, 190.0f, 0.0f);
+    glVertex3f(130.0f, 0.0f, 0.0f);
+    glVertex3f(170.0f, 0.0f, 0.0f);
+    glVertex3f(170.0f, 80.0f, 0.0f);
+    glVertex3f(130.0f, 80.0f, 0.0f);
     glEnd();
     glPopMatrix();
 
     // Middle Triangle
     glBegin(GL_TRIANGLES);
     glColor3f(255.0f, 165.0f, 0.0f);
-    glVertex3f(130.0f, 190.0f, 0.0f);
-    glVertex3f(170.0f, 190.0f, 0.0f);
-    glVertex3f(150.0f, 250.0f, 0.0f);
+    glVertex3f(130.0f, 80.0f, 0.0f);
+    glVertex3f(170.0f, 80.0f, 0.0f);
+    glVertex3f(150.0f, 160.0f, 0.0f);
     glEnd();
 
     // Left Triangle
     glBegin(GL_TRIANGLES);
     glColor3f(255.0f, 165.0f, 0.0f);
-    glVertex3f(130.0f, 110.0f, 0.0f);
-    glVertex3f(130.0f, 130.0f, 0.0f);
-    glVertex3f(100.0f, 110.0f, 0.0f);
+    glVertex3f(130.0f, 0.0f, 0.0f);
+    glVertex3f(130.0f, 20.0f, 0.0f);
+    glVertex3f(100.0f, 0.0f, 0.0f);
     glEnd();
 
     // Right Triangle
     glBegin(GL_TRIANGLES);
     glColor3f(255.0f, 165.0f, 0.0f);
-    glVertex3f(170.0f, 110.0f, 0.0f);
-    glVertex3f(200.0f, 110.0f, 0.0f);
-    glVertex3f(170.0f, 130.0f, 0.0f);
+    glVertex3f(170.0f, 0.0f, 0.0f);
+    glVertex3f(200.0f, 0.0f, 0.0f);
+    glVertex3f(170.0f, 20.0f, 0.0f);
     glEnd();
 
     // Window
-    glTranslated(150, 150, 0);
+    glTranslated(150, 40, 0);
     glColor3f(1.0f, 1.0f, 1.0f);
     GLUquadric* circle = gluNewQuadric();
-    gluDisk(circle, 0.0, 10, 64, 1);
+    gluDisk(circle, 0.0, 10, 100, 1);
 
     glPopMatrix();
 }
 
-void obstacle_design()
+void obstacle_design(float x,float y)
 {
     glPushMatrix();
+    glTranslated(x, y, 0);
+    glTranslated(0, fall * speed, 0);
 
     // Right Triangle
     glBegin(GL_TRIANGLES);
@@ -223,30 +223,9 @@ void random_number()
 void obstacle()
 {
     random_number();
-
-    glPushMatrix();
-    glTranslated(500, 1000, 0);
-    glTranslated(-500, -1000, 0);
-    glTranslated(object1X, 1050, 0);
-    glTranslated(0, fall * speed, 0);
-    obstacle_design();
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslated(500, 1000, 0);
-    glTranslated(-500, -1000, 0);
-    glTranslated(object2X, 1000, 0);
-    glTranslated(0, fall * speed, 0);
-    obstacle_design();
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslated(500, 1000, 0);
-    glTranslated(-500, -1000, 0);
-    glTranslated(object3X, 1000, 0);
-    glTranslated(0, fall * speed, 0);
-    obstacle_design();
-    glPopMatrix();
+    obstacle_design(object1X, 1000);
+    obstacle_design(object2X, 1100);
+    obstacle_design(object3X, 1200);
 }
 
 void animation()
