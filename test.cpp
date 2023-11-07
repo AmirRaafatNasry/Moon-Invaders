@@ -5,59 +5,39 @@
 
 using namespace std;
 
+// Global variables for car position and speed
 float hor = 0.0f;
 float ver = 0.0f;
 float rotates = 0.0f;
-
-float object1_random = 0.0f;
-float object1_x = 900.0f;
-
-float object2_random = 0.0f;
-float object2_x = 500.0f;
-
-float object3_random = 0.0f;
-float object3_x = 500.0f;
-
-// Speed
+//float rocketX = 0.0f;
+//float rocketSpeed = 0.05f;
 float fall = 0.0f;
-float speed = 1.0f;
+float obsX = 0.0f;
+float obsY = 0.0f;
+float d = 0.0f;
+float r1 = 0.0f;
+float r2 = 0.0f;
+float ob1X = 900.0f;
+float ob2X = 500.0f;
+float speed = 0.0f;
 
-void random_number()
+void randomNum()
 {
-    object1_random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
-    object2_random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
-    object3_random = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
+    r1 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
+    r2 = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1000.0));
 }
 
 void obstacle()
 {
-    random_number(); // Random
+    randomNum();
 
     glPushMatrix();
     glTranslated(500, 1000, 0);
     glTranslated(-500, -1000, 0);
-    glTranslated(object1_x, 1050, 0);
-    glTranslated(0, speed * fall, 0);
+    glTranslated(ob1X, 1050, 0);
+    glTranslated(0, fall, 0);
     glColor3f(255.0f, 255.0f, 255.0f);
     GLUquadric* quadradic = gluNewQuadric();
-    gluDisk(quadradic, 0.0, 50, 64, 1);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslated(500, 1000, 0);
-    glTranslated(-500, -1000, 0);
-    glTranslated(object2_x, 1000, 0);
-    glTranslated(0, speed * fall, 0);
-    glColor3f(255.0f, 255.0f, 255.0f);
-    gluDisk(quadradic, 0.0, 50, 64, 1);
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslated(500, 1000, 0);
-    glTranslated(-500, -1000, 0);
-    glTranslated(object3_x, 1000, 0);
-    glTranslated(0, speed * fall, 0);
-    glColor3f(255.0f, 255.0f, 255.0f);
     gluDisk(quadradic, 0.0, 50, 64, 1);
     glPopMatrix();
 }
@@ -111,7 +91,7 @@ void moon()
     glPopMatrix(); // Moon Pop
 }
 
-void rocket()
+void rockect()
 {
     // Rocket
     glPushMatrix();
@@ -165,7 +145,7 @@ void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    rocket();
+    rockect();
     stars();
     moon();
     obstacle();
@@ -173,24 +153,19 @@ void display()
     glFinish();
 }
 
-// TODO: Done
-// Keyboard
+// Arrows
 void special_keyboard(int key, int x, int y)
 {
     switch (key)
     {
-    // Movement
     case GLUT_KEY_UP: ver += 30; break;
     case GLUT_KEY_DOWN: ver -= 30; break;
     case GLUT_KEY_RIGHT: hor += 30; break;
     case GLUT_KEY_LEFT: hor -= 30; break;
-
-    // Speed
-    case GLUT_KEY_F1: speed += 5; break;
-    case GLUT_KEY_F2: speed = 1; break; // Sets speed to normal.
     }
-        glutPostRedisplay();
+    glutPostRedisplay();
 }
+
 
 void anim()
 {
@@ -200,14 +175,13 @@ void anim()
     if (fall < -1050)
     {
         fall = 0;
-        object1_x = object1_random;
-        object2_x = object2_random;
-        object3_x = object3_random;
+        ob1X = r1;
+        ob2X = r2;
     }
     glutPostRedisplay();
 }
 
-// TODO: Done
+
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
@@ -219,6 +193,8 @@ int main(int argc, char** argv)
     // Set the callback functions
     glutIdleFunc(anim);
     glutDisplayFunc(display);
+
+    // Arrows
     glutSpecialFunc(special_keyboard);
 
     // Initialize OpenGL

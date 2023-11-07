@@ -1,0 +1,4 @@
+mingw32/
+.vscode/
+*.txt
+*.exe
